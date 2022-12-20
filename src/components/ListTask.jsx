@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Task from './Task'
 import AddTask from './AddTask'
 import React from 'react'
@@ -7,6 +7,14 @@ import '../App.css'
 const ListTask = () => {
   
   const [ListTasks, setListTasks] = useLocalStorage('ListTasks', [])
+
+
+  useEffect(() => {
+    console.log("Llamado desde useEffect: ")
+    const item = window.localStorage.getItem('ListTasks');
+    console.log(item)
+
+  }, [])
 
   function useLocalStorage(key, initialValue)
 	{
@@ -20,8 +28,9 @@ const ListTask = () => {
 			}
 		})
 
-		const setValue = value => 
+    const setValue = value => 
 		{
+
 			try{
 				setStoredValue(value)
 				window.localStorage.setItem(key, JSON.stringify(value));
@@ -33,6 +42,9 @@ const ListTask = () => {
 
 		return [storedValue, setValue]
 	}
+
+
+  /*-----------Adding Task--------------*/
 
   const addingTask = task =>
   {
@@ -49,6 +61,7 @@ const ListTask = () => {
     const updateList = ListTasks.filter(task => task.id !== id);
     setListTasks(updateList);
   }
+
 
   return (
     <div className='list-task-container'>
