@@ -6,12 +6,42 @@ import '../App.css'
 
 const ListTask = () => {
   
-  const [ListTasks, setListTasks] = useState([])
+  const [ListTasks, setListTasks] = useLocalStorage('ListTasks', [])
+
+  function useLocalStorage(key, initialValue)
+	{
+		const [storedValue, setStoredValue] = useState(()=>{
+			try{
+				const item = window.localStorage.getItem(key);
+				return item ? JSON.parse(item) : initialValue
+			}
+			catch(e){
+				return initialValue;
+			}
+		})
+
+		const setValue = value => 
+		{
+			try{
+				setStoredValue(value)
+				window.localStorage.setItem(key, JSON.stringify(value));
+			}
+			catch(e){
+				console.error(e);
+			}
+		}
+
+		return [storedValue, setValue]
+	}
 
   const addingTask = task =>
   {
-    const updateList = [task, ...ListTasks]
-    setListTasks(updateList);
+    if(task.description.trim())
+    {
+      const updateList = [task, ...ListTasks]
+      task.description = task.description.trim();
+      setListTasks(updateList);
+    }
     console.log(ListTasks);
   }
   const deleteTask = id =>

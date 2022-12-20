@@ -11,7 +11,7 @@ const AddTask = (props) => {
   {
     setDescriptionTask(e.target.value);
   }
-  
+
   const sendingTask = e =>
   {
     const newId =  id + 1;
@@ -24,6 +24,7 @@ const AddTask = (props) => {
     }
 
     props.onClick(newTask); 
+    document.getElementById('input').value = "";
     console.log(newTask)
   }
 
@@ -33,7 +34,8 @@ const AddTask = (props) => {
             <input onChange={addingText} 
                    autoComplete='off'
                    type="text"
-                   placeholder='Enter a task...'/>
+                   placeholder='Enter a task...'
+                   id='input'/>
           </div>
           <div 
             className='add-button-container'>
